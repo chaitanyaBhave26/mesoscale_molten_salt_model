@@ -445,9 +445,10 @@
   [hart_factor]
     type = ParsedMaterial
     f_name = 'f'
+    material_property_names = 'GB_width'
     constant_names = 'd q'
     constant_expressions = '16.1122 1'
-    function = 'q/d'
+    function = 'q*GB_width/d'
     outputs = exodus
   []
   [susceptibility_Ni]
@@ -474,7 +475,7 @@
     material_property_names = 'T R GB_width c_Va'
     constant_names = 'D0_Ni_GB      E0_Ni_GB     cal_to_J' ##https://aip.scitation.org/doi/pdf/10.1063/1.1703047
     constant_expressions = '0.07e8        27400        4.184'
-    function = 'D0_Ni_GB*exp(-E0_Ni_GB*cal_to_J/R/T)*GB_width*(c_Va/2.254e-7)'
+    function = 'D0_Ni_GB*exp(-E0_Ni_GB*cal_to_J/R/T)*(c_Va/2.254e-7)'
     outputs = exodus
   []
   [D_Ni]
@@ -529,11 +530,11 @@
   [D_Cr_GB]
     type = ParsedMaterial
     f_name = D_Cr_GB
-    material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va'
+    material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va GB_width'
     constant_names = 'D2       D3        E2        E3'
     constant_expressions = '1.2211e4 0.0017e4  1.9883e8  0.002e8'
     function = '(exp((209787039506469*xc)/17179869184)*exp(2393065153853383/140737488355328)*exp(-(85'
-               '3955374395308288000*xc + 841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)'
+               '3955374395308288000*xc + 841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)/GB_width'
     outputs = exodus
   []
 
