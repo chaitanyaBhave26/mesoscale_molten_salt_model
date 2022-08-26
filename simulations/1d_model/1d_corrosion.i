@@ -552,7 +552,7 @@
     f_name = 'M_H'
     material_property_names = 'h_metal kB T k_melt R E0_F E_F'
 
-    function = 'c_H:= exp(-(E_F-E0_F)/kB/T);(1e-7*h_metal + 1000*(1-h_metal) )*c_H/kB/T/k_melt'
+    function = 'c_H:= exp(-(E_F-E0_F)/kB/T);(1e-7*h_metal + 1000*(1-h_metal) )*c_H/kB/T/k_melt' #c_H is H+ atomic fraction, assuming all HF is dissolved in the salt
     outputs = 'exodus'
     output_properties = 'M_H'
   []
