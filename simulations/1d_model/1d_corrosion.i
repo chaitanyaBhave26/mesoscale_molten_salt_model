@@ -367,7 +367,7 @@
   [c_Ni]
     type = DerivativeParsedMaterial
     f_name = 'c_Ni'
-    material_property_names = 'c_Ni_metal c_Ni_melt h_metal h_melt'
+    material_property_names = 'c_Ni_metal c_Ni_melt h_metal'
     function = 'c_Ni_metal*h_metal + c_Ni_melt*(1-h_metal)'
     outputs = 'exodus'
     output_properties = 'c_Ni'
@@ -375,7 +375,7 @@
   [c_Cr]
     type = DerivativeParsedMaterial
     f_name = 'c_Cr'
-    material_property_names = 'c_Cr_metal c_Cr_melt h_metal h_melt'
+    material_property_names = 'c_Cr_metal c_Cr_melt h_metal'
     function = 'c_Cr_metal*h_metal + c_Cr_melt*(1-h_metal)'
     outputs = 'exodus'
     output_properties = 'c_Cr'
