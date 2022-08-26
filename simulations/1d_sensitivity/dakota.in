@@ -1,0 +1,45 @@
+# Dakota Input File: lhs.in
+# Usage:
+# dakota i lhs.in o lhs.out
+
+environment
+  tabular_data
+
+method
+	centered_parameter_study
+		steps_per_variable = 3    3          3   3        3    3      3    3
+		step_vector        = 0.57  1.52e-5    50  4.53e-6  50   0.0025 0.2  1.493e6
+ #	multidim_parameter_study
+#  partitions = 3 3 3 3 3 3 ##
+#  partitions = 1 1 1 1 ##
+
+
+  model
+    single
+
+  variables
+    continuous_design=8
+    initial_point  = 5.7   1.52e-4      500          4.53e-5      500         0.025    2           1.493e7
+  	descriptors   =	'i0'	'D_Ni_metal' 'D_Ni_melt'	'D_Cr_metal' 'D_Cr_melt' 'del_int' 'int_width' 'int_energy'
+  interface
+    fork asynchronous  evaluation_concurrency=12
+      analysis_drivers  'dakota_driver.sh'
+      parameters_file   'params.in'
+      results_file      'results.out'
+        file_save
+        #file_tag
+   allow_existing_results  #this is recommended for running on clusters
+      work_directory
+        named 'workdir'
+        directory_tag
+        directory_save      #this is recommended for running on clusters
+
+      dprepro
+
+
+  responses
+    response_functions  1 #5
+    descriptors          'job_over'
+#    descriptors          'inital_total_cr' 'final_total_cr' 'inital_metal_cr' 'final_metal_cr' 'final_alloy_thickness'
+    no_gradients
+    no_hessians
