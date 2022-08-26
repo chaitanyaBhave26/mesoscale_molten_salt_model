@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 fig, (ax,ax2) = plt.subplots(2,figsize=(1.0, 2),dpi = 500,gridspec_kw={'height_ratios': [2, 1]})
-# fig.subplots_adjust(bottom=0.5)
 
 cmap = mpl.cm.jet
 norm = mpl.colors.Normalize(vmin=0, vmax=9)
@@ -17,15 +16,9 @@ cbar.set_ticks(cb_ticks)
 cbar.ax.set_yticklabels(cb_ticks )
 cbar.ax.set_ylabel("Grain OPs",fontsize=6,fontweight='bold')
 
-# ax.set_aspect('auto')
-ax2.axis('off')#set_aspect('auto')
-# ax.annotate('', xy=(0, -0.1), xycoords='axes fraction', xytext=(1, -0.1),
-# arrowprops=dict(arrowstyle="->", color='b'))
-#
+ax2.axis('off')
 x0 = 0
 y0 = -1
-# ax2.annotate('', xy=(x0,y0 ), xycoords='axes fraction', xytext=(x0, y0+0.5),
-# arrowprops=dict(arrowstyle="<-", color='b'))
 
 #TIGHT LAYOUT ADJUSTS BORDERS AND PADDING TO GIVE BEST LOOKING IMAGE
 plt.tight_layout()

@@ -1,3 +1,5 @@
+##Used to fit an ideal solution free energy to the Ni-Cr CALPHAD assessment data
+
 # import packages
 import matplotlib.pyplot as plt
 import csv
@@ -96,7 +98,6 @@ print(rmse_f0/np.mean(F_0))
 # close existing plots
 plt.close('all')
 #set plot dimensions
-# plt.style.use('plot_style.txt')
 fig = plt.figure(figsize=(3.0,1.85),dpi=500)
 plt.rcParams.update({'font.family':'Arial'})
 plt.rc('font', family='sans-serif',weight='bold')
@@ -132,15 +133,6 @@ plt.ylabel(r"Gibbs energy ($\times10^3$ J/mol)",fontsize=6,fontweight='bold')#,l
 #Set axis spine widths
 for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(1.0)
-# ax.axhline(y=-50.0,linewidth=3, color="k")
-# ax.axvline(x=0.9,linewidth=3, color="k")
-# ax.axhline(y=-20.0,linewidth=3, color="k")
-# ax.axvline(x=1.0,linewidth=3, color="k")
-
-
 
 fig.tight_layout()
 fig.savefig(PATH+'Cr_excess_energy.png',dpi=500, transparent=True,bbox_inches='tight')
-
-
-# plt.show()

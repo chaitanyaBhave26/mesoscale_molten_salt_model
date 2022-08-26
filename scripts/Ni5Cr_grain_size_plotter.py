@@ -44,8 +44,6 @@ data = (raw_data)
 D = np.asarray(data[0])
 A_f = np.asarray(data[1])
 
-# ax.plot(D,A_f,'r',linewidth=1.5)
-
 mean_af = np.sum(A_f*D)
 print("Mean grain size by area is = ",mean_af)
 
@@ -67,15 +65,7 @@ r = stats.norm(E,SD)
 pdf = r.pdf(np.log(D) )
 ax.plot(D, pdf,'b--',linewidth=1.5 )
 
-mean_ln = math.exp(E)#math.exp(np.sum(pdf*np.log(D) )/np.sum(pdf))
+mean_ln = math.exp(E)
 print("Mean grain size by lognormal fit grain count is = ",mean_ln,np.sum(pdf) )
 
-# ln_af = pdf*D**2
-# print("Sum ln_af = ",sum(ln_af))
-# ln_af = ln_af/sum(ln_af)
-# ax.plot(D,ln_af,'r--',linewidth=1.5)
-
-# legend_properties = {'weight':'bold','size':6}
-# ax.legend(['A_f','N_f','lgN N_f'],prop=legend_properties)
-# ax.set_xscale('log')
 plt.show()

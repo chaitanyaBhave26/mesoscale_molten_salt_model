@@ -14,13 +14,6 @@ plt.rc('font', family='sans-serif',weight='bold')
 dx = 0.5
 X = np.linspace(-3,3,500)
 
-# sharp = (X<0)
-# S1,=ax.plot(X,sharp,'k-',linewidth=1.5)
-#
-# sharp = (X<-dx)
-# S2,=ax.plot(X,sharp,'k--',linewidth=1.5)
-
-
 int_width = 0.5
 eta = 0.5*(1 - np.tanh( 2*X/int_width ) )
 P1,=ax.plot(X,eta,'r-',linewidth=1.5)
@@ -57,8 +50,6 @@ plt.ylabel("Metal phase",fontsize=6,fontweight='bold')#,labelpad=15)
 #Set axis spine widths
 for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(1.0)
-
-# ax.margins(0,0)
 
 fig.tight_layout()
 fig.savefig(PATH+'AC_mobility_fit.png',dpi=500, transparent=True)
