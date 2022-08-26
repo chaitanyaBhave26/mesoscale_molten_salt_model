@@ -171,7 +171,7 @@
     y1 = 0
     radius = 150
     invalue = -0.6755  #Ni-5Cr
-    outvalue = -0.9699 #Ni2+ concentration is 25e-6
+    outvalue = -0.9699 #Ni2+ concentration is 3.69e-11
     int_width = %int_width% #2
   []
 []
