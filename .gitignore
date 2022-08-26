@@ -1,0 +1,3 @@
+#Ignore exodus and csv files
+*.e*
+*.csv
