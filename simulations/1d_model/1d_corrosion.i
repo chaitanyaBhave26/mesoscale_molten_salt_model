@@ -534,7 +534,8 @@
     constant_names = 'D2       D3        E2        E3'
     constant_expressions = '1.2211e4 0.0017e4  1.9883e8  0.002e8'
     function = '(exp((209787039506469*xc)/17179869184)*exp(2393065153853383/140737488355328)*exp(-(85'
-               '3955374395308288000*xc + 841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)/GB_width'
+               '3955374395308288000*xc + '
+               '841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)/GB_width'
     outputs = exodus
   []
 
@@ -577,14 +578,14 @@
     type = DerivativeParsedMaterial
     args = 'eta0 w_Ni phi'
     f_name = 'chem_flux_Ni'
-    material_property_names = '  M_Ni M_F h_metal'
+    material_property_names = '  M_Ni h_metal'
     function = '(1-h_metal)*M_Ni*2'
   []
   [flux_Cr]
     type = DerivativeParsedMaterial
     args = 'eta0 w_Cr phi'
     f_name = 'chem_flux_Cr'
-    material_property_names = '  M_Cr M_F h_metal'
+    material_property_names = '  M_Cr h_metal'
     function = '(1-h_metal)*M_Cr*2'
     outputs = 'exodus'
     output_properties = 'chem_flux_Cr'
