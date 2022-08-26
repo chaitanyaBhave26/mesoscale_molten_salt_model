@@ -1,11 +1,11 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  nx = 160
+  nx = 80
   xmax = 160
   ny = 1
   ymax = 2
-  uniform_refine = 2
+  uniform_refine = 3
 []
 
 
@@ -48,7 +48,7 @@
     variable = eta0
     fa_name = omega_melt
     fb_name = omega_metal
-    w = ${fparse 6 * 1.493e7 / 2}#4.479e7
+    w = ${fparse 6 * %int_energy% / %int_width%}
     h_name = h_metal
     mob_name = L
     args = 'w_Ni w_Cr'
@@ -150,7 +150,7 @@
     radius = 150
     invalue = '1'
     outvalue = '0.0'
-    int_width = 2
+    int_width = %int_width%
   []
 
   # #Ni INITIAL CONDITIONS -> 5% Cr
@@ -162,7 +162,7 @@
     radius = 150
     invalue = -0.45065  #Ni-5Cr
     outvalue = -0.45065 #Same chemical potential as Ni-5Cr alloy
-    int_width = 2
+    int_width = %int_width% #2
   []
   [w_Cr]
     type = SmoothCircleIC
@@ -172,7 +172,7 @@
     radius = 150
     invalue = -0.6755  #Ni-5Cr
     outvalue = -0.9699 #Ni2+ concentration is 3.69e-11
-    int_width = 2
+    int_width = %int_width% #2
   []
 []
 
@@ -186,8 +186,8 @@
 
   [w_Ni_right]
     type = DirichletBC
-    variable = w_Cr
-    value = -0.4667
+    variable = w_Ni
+    value = -0.45065
     boundary = 'right'
   []
   [w_Cr_right]
@@ -202,8 +202,8 @@
 
   [constants]
     type = GenericConstantMaterial
-    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va          pi           del_int   Na                xc  GB_width'
-    prop_values = '1.5     6.803e6          1.493e7                   2.0                    1.1131e-11  3.141592653  0.025       6.02214076e23   0.0 5e-4'
+    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va          pi           del_int     Na              xc  GB_width'
+    prop_values = '1.5     6.803e6          %int_energy%                  %int_width%        1.1131e-11  3.141592653  %del_int%   6.02214076e23   0.0 5e-4'
   []
   [energy_constants]
     type = GenericConstantMaterial
@@ -366,7 +366,7 @@
   [c_Ni]
     type = DerivativeParsedMaterial
     f_name = 'c_Ni'
-    material_property_names = 'c_Ni_metal c_Ni_melt h_metal h_melt'
+    material_property_names = 'c_Ni_metal c_Ni_melt h_metal '
     function = 'c_Ni_metal*h_metal + c_Ni_melt*(1-h_metal)'
     outputs = 'exodus'
     output_properties = 'c_Ni'
@@ -374,7 +374,7 @@
   [c_Cr]
     type = DerivativeParsedMaterial
     f_name = 'c_Cr'
-    material_property_names = 'c_Cr_metal c_Cr_melt h_metal h_melt'
+    material_property_names = 'c_Cr_metal c_Cr_melt h_metal '
     function = 'c_Cr_metal*h_metal + c_Cr_melt*(1-h_metal)'
     outputs = 'exodus'
     output_properties = 'c_Cr'
@@ -481,7 +481,7 @@
     f_name = D_Ni
     args = 'eta0 w_Ni w_Cr'
     material_property_names = 'f D_Ni_V D_Ni_GB h_metal'
-    function = '( (1-f)*D_Ni_V + f*D_Ni_GB)*h_metal  + 500*(1-h_metal) '
+    function = '%D_Ni_metal%*h_metal  + %D_Ni_melt%*(1-h_metal) '
     outputs = 'exodus'
   []
 
@@ -538,8 +538,8 @@
     type = ParsedMaterial
     f_name = D_Cr
     args = 'eta0 w_Ni w_Cr'
-    material_property_names = 'f D_Cr_V D_Cr_GB h_metal'
-    function = '( (1-f)*D_Cr_V + f*D_Cr_GB)*h_metal  + 500*(1-h_metal) '
+    material_property_names = 'f D_Cr_V D_Cr_GB h_metal c_Va'
+    function = '%D_Cr_metal%*(c_Va/2.254e-7)*h_metal  + %D_Cr_melt%*(1-h_metal) '
     outputs = 'exodus'
   []
   [mobility_Cr]
@@ -573,14 +573,14 @@
     type = DerivativeParsedMaterial
     args = 'eta0 w_Ni phi'
     f_name = 'chem_flux_Ni'
-    material_property_names = 'z_Ni z_F M_Ni M_F h_metal'
+    material_property_names = ' M_Ni h_metal'
     function = '(1-h_metal)*M_Ni*2'
   []
   [flux_Cr]
     type = DerivativeParsedMaterial
     args = 'eta0 w_Cr phi'
     f_name = 'chem_flux_Cr'
-    material_property_names = 'z_Ni z_F M_Cr M_F h_metal'
+    material_property_names = ' M_Cr h_metal'
     function = '(1-h_metal)*M_Cr*2'
     outputs = 'exodus'
     output_properties = 'chem_flux_Cr'
@@ -589,7 +589,7 @@
     type = DerivativeParsedMaterial
     f_name = 'elec_flux'
     args = 'eta0 w_Ni phi'
-    material_property_names = 'z_Ni z_F M_Ni M_Cr M_H M_e h_metal'
+    material_property_names = ' M_Ni M_Cr M_H M_e h_metal'
     function = '(1-h_metal)*(4*M_Ni + 4*M_Cr + M_H) + (h_metal)*M_e'
     output_properties = 'elec_flux'
     outputs = exodus
@@ -669,11 +669,6 @@
     growth_factor = 1.1
     cutback_factor = 0.8
   []
-  # [Adaptivity]
-  #   max_h_level = 2
-  #   refine_fraction = 0.9
-  #   coarsen_fraction = 0.05
-  # []
 
   # num_steps = 1
 []
@@ -728,12 +723,12 @@
 []
 
 [Outputs]
-  # [exodus]
-  #   type = Exodus
-  #   interval = 20
-  #   execute_on = 'INITIAL TIMESTEP_END FINAL'
-  # []
-  exodus = true
+   [exodus]
+     type = Exodus
+     interval = 20
+     execute_on = 'INITIAL TIMESTEP_END FINAL'
+   []
+  #exodus = true
   perf_graph = true
   csv = true
   file_base = '1d_corrosion/1d_corrosion'
