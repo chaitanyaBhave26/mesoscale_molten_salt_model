@@ -577,14 +577,14 @@
     type = DerivativeParsedMaterial
     args = 'eta0 w_Ni phi'
     f_name = 'chem_flux_Ni'
-    material_property_names = 'z_Ni z_F M_Ni M_F h_metal'
+    material_property_names = '  M_Ni M_F h_metal'
     function = '(1-h_metal)*M_Ni*2'
   []
   [flux_Cr]
     type = DerivativeParsedMaterial
     args = 'eta0 w_Cr phi'
     f_name = 'chem_flux_Cr'
-    material_property_names = 'z_Ni z_F M_Cr M_F h_metal'
+    material_property_names = '  M_Cr M_F h_metal'
     function = '(1-h_metal)*M_Cr*2'
     outputs = 'exodus'
     output_properties = 'chem_flux_Cr'
@@ -593,7 +593,7 @@
     type = DerivativeParsedMaterial
     f_name = 'elec_flux'
     args = 'eta0 w_Ni phi'
-    material_property_names = 'z_Ni z_F M_Ni M_Cr M_H M_e h_metal'
+    material_property_names = '  M_Ni M_Cr M_H M_e h_metal'
     function = '(1-h_metal)*(4*M_Ni + 4*M_Cr + M_H) + (h_metal)*M_e'
     output_properties = 'elec_flux'
     outputs = exodus
