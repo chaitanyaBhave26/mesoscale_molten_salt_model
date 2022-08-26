@@ -8,7 +8,6 @@
   uniform_refine = 2
 []
 
-
 [GlobalParams]
   profile = TANH
   enable_jit = false
@@ -48,7 +47,7 @@
     variable = eta0
     fa_name = omega_melt
     fb_name = omega_metal
-    w = ${fparse 6 * 1.493e7 / 0.5}#4.479e7
+    w = '${fparse 6 * 1.493e7 / 0.5}' #4.479e7
     h_name = h_metal
     mob_name = L
     args = 'w_Ni w_Cr'
@@ -160,7 +159,7 @@
     x1 = 0
     y1 = 0
     radius = 150
-    invalue = -0.45065  #Ni-5Cr
+    invalue = -0.45065 #Ni-5Cr
     outvalue = -0.45065 #Same chemical potential as Ni-5Cr alloy
     int_width = 2.0
   []
@@ -170,7 +169,7 @@
     x1 = 0
     y1 = 0
     radius = 150
-    invalue = -0.6755  #Ni-5Cr
+    invalue = -0.6755 #Ni-5Cr
     outvalue = -0.9699 #Ni2+ concentration is 25e-6
     int_width = 2.0
   []
@@ -202,8 +201,10 @@
 
   [constants]
     type = GenericConstantMaterial
-    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va          pi           del_int   Na                xc  GB_width'
-    prop_values = '1.5     6.803e6          1.493e7                   2.0                    1.1131e-11  3.141592653  0.025       6.02214076e23   0.0 5e-4'
+    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va      '
+                 '    pi           del_int   Na                xc  GB_width'
+    prop_values = '1.5     6.803e6          1.493e7                   2.0                    '
+                  '1.1131e-11  3.141592653  0.025       6.02214076e23   0.0 5e-4'
   []
   [energy_constants]
     type = GenericConstantMaterial
@@ -520,7 +521,9 @@
     material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va'
     constant_names = 'D0      D1        E0        E1'
     constant_expressions = '5.353e3 0.0199e3  7.8886e7  0.0285e7'
-    function = '(exp(-(84702800778885824000*xc + 306299812110263875)/(8927089524736*T))*exp((5885692387260437*xc)/1099511627776)*exp(699261826406127/35184372088832))*(c_Va/2.254e-7)'
+    function = '(exp(-(84702800778885824000*xc + '
+               '306299812110263875)/(8927089524736*T))*exp((5885692387260437*xc)/1099511627776)*exp(6'
+               '99261826406127/35184372088832))*(c_Va/2.254e-7)'
     outputs = exodus
   []
   [D_Cr_GB]
