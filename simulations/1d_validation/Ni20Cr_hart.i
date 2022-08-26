@@ -8,7 +8,6 @@
   uniform_refine = 3
 []
 
-
 [GlobalParams]
   profile = TANH
   enable_jit = false
@@ -48,7 +47,7 @@
     variable = eta0
     fa_name = omega_melt
     fb_name = omega_metal
-    w = ${fparse 6 * 1.493e7 / 2}#4.479e7
+    w = '${fparse 6 * 1.493e7 / 2}' #4.479e7
     h_name = h_metal
     mob_name = L
     args = 'w_Ni w_Cr'
@@ -160,7 +159,7 @@
     x1 = 0
     y1 = 0
     radius = 150
-    invalue = -0.4667  #Ni-20Cr
+    invalue = -0.4667 #Ni-20Cr
     outvalue = -0.45065 #Same chemical potential as Ni-5Cr alloy
     int_width = 2.0
   []
@@ -170,7 +169,7 @@
     x1 = 0
     y1 = 0
     radius = 150
-    invalue = -0.56093  #Ni-5Cr
+    invalue = -0.56093 #Ni-5Cr
     outvalue = -0.9699 #Ni2+ concentration is 25e-6
     int_width = 2.0
   []
@@ -201,8 +200,10 @@
 
   [constants]
     type = GenericConstantMaterial
-    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va          pi           del_int   Na                xc  GB_width'
-    prop_values = '1.5     6.803e6          1.493e7                   2.0                    1.1087e-11  3.141592653  0.025       6.02214076e23   0.0 5e-4'
+    prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va      '
+                 '    pi           del_int   Na                xc  GB_width'
+    prop_values = '1.5     6.803e6          1.493e7                   2.0                    '
+                  '1.1087e-11  3.141592653  0.025       6.02214076e23   0.0 5e-4'
   []
   [energy_constants]
     type = GenericConstantMaterial
@@ -454,9 +455,10 @@
   [hart_factor]
     type = ParsedMaterial
     f_name = 'f'
+    material_property_names = 'GB_width'
     constant_names = 'd q'
     constant_expressions = '4.64 1'
-    function = 'q/d'
+    function = 'q*GB_width/d'
     outputs = exodus
   []
   [susceptibility_Ni]
@@ -483,7 +485,7 @@
     material_property_names = 'T R GB_width c_Va'
     constant_names = 'D0_Ni_GB      E0_Ni_GB     cal_to_J' ##https://aip.scitation.org/doi/pdf/10.1063/1.1703047
     constant_expressions = '0.07e8        27400        4.184'
-    function = 'D0_Ni_GB*exp(-E0_Ni_GB*cal_to_J/R/T)*GB_width*(c_Va/2.254e-7)'
+    function = 'D0_Ni_GB*exp(-E0_Ni_GB*cal_to_J/R/T)*(c_Va/2.254e-7)'
     outputs = exodus
   []
   [D_Ni]
@@ -514,33 +516,26 @@
     function = 'chi_Cr_metal*h_metal + chi_Cr_melt*(1-h_metal)'
     outputs = exodus
   []
-  [cross_susceptibility_Cr]
-    type = DerivativeParsedMaterial
-    f_name = 'cross_chi_Cr'
-    args = 'w_Ni w_Cr eta0'
-    material_property_names = 'c_Cr_metal c_Cr_melt  cross_Cr_metal:=D[c_Cr_metal,w_Ni] '
-                              'cross_Cr_melt:=D[c_Cr_melt,w_Ni] h_metal'
-    function = 'h_metal*cross_Cr_metal + (1-h_metal)*cross_Cr_melt'
-    outputs = 'exodus'
-  []
-
   [D_Cr_V]
     type = ParsedMaterial
     f_name = D_Cr_V
     material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va'
     constant_names = 'D0      D1        E0        E1'
     constant_expressions = '5.353e3 0.0199e3  7.8886e7  0.0285e7'
-    function = '(exp(-(84702800778885824000*xc + 306299812110263875)/(8927089524736*T))*exp((5885692387260437*xc)/1099511627776)*exp(699261826406127/35184372088832))*(c_Va/2.254e-7)'
+    function = '(exp(-(84702800778885824000*xc + '
+               '306299812110263875)/(8927089524736*T))*exp((5885692387260437*xc)/1099511627776)*exp(6'
+               '99261826406127/35184372088832))*(c_Va/2.254e-7)'
     outputs = exodus
   []
   [D_Cr_GB]
     type = ParsedMaterial
     f_name = D_Cr_GB
-    material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va'
+    material_property_names = 'R T F E0_Ni_metal E0_Va_metal xc c_Va GB_width'
     constant_names = 'D2       D3        E2        E3'
     constant_expressions = '1.2211e4 0.0017e4  1.9883e8  0.002e8'
     function = '(exp((209787039506469*xc)/17179869184)*exp(2393065153853383/140737488355328)*exp(-(85'
-               '3955374395308288000*xc + 841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)'
+               '3955374395308288000*xc + '
+               '841876566076058375)/(35708358098944*T)))*(c_Va/2.254e-7)/GB_width'
     outputs = exodus
   []
   [D_Cr]
