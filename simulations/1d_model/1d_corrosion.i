@@ -651,21 +651,19 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK #NEWTON
+  solve_type = PJFNK
   scheme = bdf2
   petsc_options_iname = '-pc_type -pc_factor_mat_solver_package'
   petsc_options_value = 'lu superlu_dist'
   l_max_its = 30
   l_tol = 1e-4
-  # nl_rel_tol = 1e-8
-  # nl_abs_tol = 1e-20
   nl_rel_tol = 1e-12
   nl_abs_tol = 1e-12
   dtmin = 1e-7
   automatic_scaling = true
   compute_scaling_once = false
-  dtmax = 1e4 #1000#3600 #5000 #500.0
-  end_time = 3.6e6 #8.6e6 #8.6e4 = 1 day
+  dtmax = 1e4
+  end_time = 3.6e6 #3600 seconds in one hour, 1000 hour corrosion simulation
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 1e-4
@@ -674,13 +672,6 @@
     growth_factor = 1.1
     cutback_factor = 0.8
   []
-  # [Adaptivity]
-  #   max_h_level = 2
-  #   refine_fraction = 0.9
-  #   coarsen_fraction = 0.05
-  # []
-
-  # num_steps = 1
 []
 
 [Postprocessors]
