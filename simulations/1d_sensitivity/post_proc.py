@@ -139,21 +139,3 @@ lgd = ax.legend(["Mass loss"],  prop=legend_properties,framealpha=0)
 fig.tight_layout(pad=0.3)  #Removes unnecessary padding from figure. Usually makes figure look much better
 plt.savefig('1d_sensitivity.png',dpi=500,transparent=True)
 plt.savefig(PATH+'1d_sensitivity.png',dpi=500,transparent=True)
-
-"""
-
-plt.ylim(-0.1,1.1)
-plt.xticks(fontsize=12)  # arbitrary chosen
-plt.yticks(np.linspace(-0.1,1.1, 7),fontsize=12)
-ax = plt.axes()
-ax.tick_params(axis='x',direction='in',pad=6)
-ax.tick_params(axis='y',direction='in',pad=6)
-
-
-plt.ylabel("Normalized Sensitivity",fontsize=15,fontweight='bold',labelpad=12)
-plt.xlabel("Model parameters and material properties",fontsize=15,fontweight='bold',labelpad=12)
-
-plt.savefig('1d_sensitivity.png',dpi=500,transparent=True)
- """
-
-# plt.show()
