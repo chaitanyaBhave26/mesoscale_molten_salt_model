@@ -8,7 +8,6 @@ from scipy import stats
 from IPython.display import set_matplotlib_formats
 
 def getRawData(fileName, delim): # extract raw data from csv file
-
     rawData = []
     with open(fileName, 'r') as f:
         CSVReader = csv.reader(f, delimiter = delim, skipinitialspace = True)
@@ -24,7 +23,6 @@ def get_plot_vars(training_data,idx):
     H = T/3600 #time in hours
     M = training_data[idx]
     dM = ((M[1] - M[1:])) #mass change in mg/cm2
-    # return(H,M[1:])
     return(H,dM)
 
 def readDatFile(fileName):
@@ -34,7 +32,6 @@ def readDatFile(fileName):
 
     for row in rows:
         line = row.split()
-
         del line[1]
         del line[0]
         del line[-1]
@@ -92,7 +89,7 @@ for i in range(x_count):
 
 Sens_vals = np.asarray(Sens_vals)
 Sens_vals/=np.max(np.abs(Sens_vals))
-print("Sensitivi = ",Sens_vals)
+print("Sensitivity = ",Sens_vals)
 
 
 plt.close('all')
@@ -135,7 +132,6 @@ legend_properties = {'weight':'bold','size':6}
 lgd = ax.legend(["Mass loss"],  prop=legend_properties,framealpha=0)
 
 
-# ax.set_xlabel('Parameter',fontsize=7,fontweight='bold')
 fig.tight_layout(pad=0.3)  #Removes unnecessary padding from figure. Usually makes figure look much better
 plt.savefig('1d_sensitivity.png',dpi=500,transparent=True)
 plt.savefig(PATH+'1d_sensitivity.png',dpi=500,transparent=True)
