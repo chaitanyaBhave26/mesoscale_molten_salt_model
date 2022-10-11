@@ -1,0 +1,42 @@
+# Dakota Input File: lhs.in
+# Usage:
+# dakota -i lhs.in -o lhs.out
+
+environment
+  tabular_data
+
+  method
+    list_parameter_study
+      list_of_points =  2.0
+                        1.0
+                        0.5
+                        0.2
+                        0.1
+
+  model
+    single
+
+  variables
+    continuous_design=1
+  	descriptors   =	'int_width'
+  interface
+    fork asynchronous  evaluation_concurrency=1
+      analysis_drivers  'dakota_driver.sh'
+      parameters_file   'params.in'
+      results_file      'results.out'
+        file_save
+        #file_tag
+   allow_existing_results  #this is recommended for running on clusters
+      work_directory
+        named 'workdir'
+        directory_tag
+        directory_save      #this is recommended for running on clusters
+
+      dprepro
+
+
+  responses
+    response_functions  1 #5
+    descriptors          'job_over'
+    no_gradients
+    no_hessians

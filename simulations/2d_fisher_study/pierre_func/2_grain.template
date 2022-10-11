@@ -4,8 +4,8 @@
   [gen]
     type = GeneratedMeshGenerator
     dim = 2
-    nx = ${fparse ${xmax} / 0.2  }
-    ny = ${fparse ${ymax} / 0.2  }
+    nx = ${fparse ${xmax} / %int_width%  }
+    ny = ${fparse ${ymax} / %int_width%  }
     xmax = 150
     ymax = 12  #30
   []
@@ -14,7 +14,7 @@
 []
 
 [GlobalParams]
-  # int_width = 0.2
+  # int_width = %int_width%
   enable_jit = false
   enable_ad_cache = false
 []
@@ -55,17 +55,17 @@
   [grain1_IC]
     type = FunctionIC
     variable = grain1
-    function = 'y0:=${Mesh/gen/ymax} / 2;0.5-0.5*tanh(2*(y-y0)/0.2)'
+    function = 'y0:=${Mesh/gen/ymax} / 2;0.5-0.5*tanh(2*(y-y0)/%int_width%)'
   []
   [grain2_IC]
     type = FunctionIC
     variable = grain2
-    function = 'y0:=${Mesh/gen/ymax} / 2;0.5+0.5*tanh(2*(y-y0)/0.2)'
+    function = 'y0:=${Mesh/gen/ymax} / 2;0.5+0.5*tanh(2*(y-y0)/%int_width%)'
   []
   [c_IC]
     type = FunctionIC
     variable = 'c'
-    function = '0.0561'
+    function = '0'
   []
 []
 
@@ -87,7 +87,7 @@
     type = FunctionDirichletBC
     variable = c
     boundary = right
-    function = '0.0'
+    function = '1'
   [../]
 []
 
@@ -96,8 +96,8 @@
     type = GenericConstantMaterial
     prop_names = 'gamma    gr_energy_sigma  interface_energy_sigma    interface_thickness_l  Va pi '
                  'del_int Na xc GB_width b l'
-    prop_values = '1.5     10                   5.1e-5                        0.2           1.1131e-11 '
-                  ' 3.141592653 ${fparse 0.025 * 2 / 0.2 } 6.02214076e23 0.0 5e-4 0.8 0.01'
+    prop_values = '1.5     10                   5.1e-5                        %int_width%           1.1131e-11 '
+                  ' 3.141592653 ${fparse 0.025 * 2 / %int_width% } 6.02214076e23 0.0 5e-4 0.8 0.01'
   []
   [energy_constants]
     type = GenericConstantMaterial
@@ -175,7 +175,7 @@
 #     variable = 'c'
 #     start_point = '0.00 25.0 0'
 #     end_point = '150 25.0 0'
-#     num_points = ${fparse 160 / 0.2 }
+#     num_points = ${fparse 160 / %int_width% }
 #     sort_by = id
 #   [../]
 #   [./perp_gb]
@@ -183,7 +183,7 @@
 #     variable = 'c'
 #     start_point = '125.00 0.0 0'
 #     end_point = '125 30.0 0'
-#     num_points = ${fparse 30 / 0.2 }
+#     num_points = ${fparse 30 / %int_width% }
 #     sort_by = id
 #   [../]
 # []
