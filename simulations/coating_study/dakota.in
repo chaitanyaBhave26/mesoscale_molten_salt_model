@@ -1,0 +1,42 @@
+# Dakota Input File: lhs.in
+# Usage:
+# dakota i lhs.in o lhs.out
+
+environment
+  tabular_data
+
+method
+	sampling
+    sample_type lhs
+    samples = 100 #0
+
+  model
+    single
+
+  variables
+    uniform_uncertain=3
+    lower_bounds = 5 5 30
+    upper_bounds = 15 15 90
+  	descriptors   =	'G_alloy'	'G_coating' 'coating_thickness'
+  interface
+    fork asynchronous  evaluation_concurrency=8
+      analysis_drivers  'dakota_driver.sh'
+      parameters_file   'params.in'
+      results_file      'results.out'
+        file_save
+        #file_tag
+   allow_existing_results  #this is recommended for running on clusters
+      work_directory
+        named 'workdir'
+        directory_tag
+        directory_save      #this is recommended for running on clusters
+
+      dprepro
+
+
+  responses
+    response_functions  1 #5
+    descriptors          'job_over'
+#    descriptors          'inital_total_cr' 'final_total_cr' 'inital_metal_cr' 'final_metal_cr' 'final_alloy_thickness'
+    no_gradients
+    no_hessians
